@@ -185,51 +185,55 @@ function App() {
         }}
       />
 
-      <div className="min-h-screen bg-[#f7fafc] p-8">
-        <h1 className="text-4xl font-bold text-[#1a1f36] mb-2 text-center">
+      <div className="min-h-screen bg-[#f7fafc] p-4 md:p-8">
+        <h1 className="text-3xl md:text-4xl font-bold text-[#1a1f36] mb-2 text-center">
           IP Subnet Calculator
         </h1>
-        <p className="text-[#4a5568] text-center mb-8">
+        <p className="text-[#4a5568] text-center mb-6 md:mb-8">
           Calculate subnets and visualize IP allocations
         </p>
 
         {/* Mode Toggle */}
-        <div className="flex justify-center mb-8">
+        <div className="flex justify-center mb-6 md:mb-8">
           <div className="bg-white rounded-lg p-1 shadow-sm border border-[#e2e8f0]">
             <button
               onClick={() => setMode("basic")}
-              className={`px-6 py-3 rounded-md transition-colors ${
+              className={`px-4 md:px-6 py-2 md:py-3 rounded-md transition-colors ${
                 mode === "basic"
                   ? "bg-[#1447e6] text-white"
                   : "text-[#1447e6] hover:bg-[#e8f0fe]"
               }`}
             >
-              <i className="fa-solid fa-calculator"> </i>
-              <span> Basic Calculator</span>
+              <i className="fa-solid fa-calculator"></i>
+              <span className="ml-2">Basic Calculator</span>
             </button>
 
             <button
               onClick={() => setMode("allocation")}
-              className={`px-6 py-3 rounded-md transition-colors ${
+              className={`px-4 md:px-6 py-2 md:py-3 rounded-md transition-colors ${
                 mode === "allocation"
                   ? "bg-[#1447e6] text-white"
                   : "text-[#1447e6] hover:bg-[#e8f0fe]"
               }`}
             >
-              <i class="fa-solid fa-arrow-trend-up"></i>
-              <span> Visual Allocation </span>
+              <i className="fa-solid fa-arrow-trend-up"></i>
+              <span className="ml-2">Visual Allocation</span>
             </button>
           </div>
         </div>
 
-        <div className="max-w-6xl mx-auto bg-white p-6 rounded-xl shadow-sm border border-[#e2e8f0]">
+        <div className="max-w-6xl mx-auto bg-white p-4 md:p-6 rounded-xl shadow-sm border border-[#e2e8f0]">
           {mode === "basic" ? (
             /* Basic Calculator */
             <div>
               <form onSubmit={handleBasicCalculate} className="space-y-4 mb-6">
-                <div className="flex gap-4 items-end">
+                {/* Responsive input layout */}
+                <div className="flex flex-col md:flex-row md:items-end gap-4">
+                  {/* IP Address field - full width on mobile */}
                   <div className="flex-1">
-                    <label className="block mb-1">IP Address</label>
+                    <label className="block mb-1 text-sm md:text-base">
+                      IP Address
+                    </label>
                     <input
                       type="text"
                       value={ipInput}
@@ -245,8 +249,11 @@ function App() {
                     )}
                   </div>
 
-                  <div className="w-24">
-                    <label className="block mb-1">CIDR</label>
+                  {/* CIDR field - smaller on mobile */}
+                  <div className="w-full md:w-24">
+                    <label className="block mb-1 text-sm md:text-base">
+                      CIDR
+                    </label>
                     <input
                       type="number"
                       value={cidrInput}
@@ -263,10 +270,12 @@ function App() {
                       </p>
                     )}
                   </div>
-                  <div>
+
+                  {/* Calculate button - full width on mobile, auto width on desktop */}
+                  <div className="w-full md:w-auto">
                     <button
                       type="submit"
-                      className="bg-[#1447e6] text-white px-6 py-3 rounded-lg hover:bg-[#0f2e7a] transition duration-150 whitespace-nowrap"
+                      className="bg-[#1447e6] text-white px-6 py-3 rounded-lg hover:bg-[#0f2e7a] transition duration-150 w-full md:w-auto"
                     >
                       Calculate
                     </button>
@@ -298,10 +307,10 @@ function App() {
                     <tbody className="bg-white divide-y divide-[#e2e8f0]">
                       {Object.entries(results).map(([key, value]) => (
                         <tr key={key} className="hover:bg-[#f7fafc]">
-                          <td className="px-6 py-4 font-medium text-[#1a1f36] w-1/2">
+                          <td className="px-4 md:px-6 py-3 md:py-4 font-medium text-[#1a1f36] w-1/2 text-sm md:text-base">
                             {key}
                           </td>
-                          <td className="px-6 py-4 text-[#1a1f36] w-1/2 font-mono">
+                          <td className="px-4 md:px-6 py-3 md:py-4 text-[#1a1f36] w-1/2 font-mono text-sm md:text-base">
                             {value}
                           </td>
                         </tr>
@@ -317,7 +326,7 @@ function App() {
               {/* NEW: Allocation Status Banner */}
               {results && (
                 <div className="bg-[#e8f0fe] border border-[#3b6de8] rounded-lg p-4">
-                  <div className="flex justify-between items-center">
+                  <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-3">
                     <div>
                       <h3 className="font-bold text-[#1447e6]">
                         Using Subnet Results
@@ -330,7 +339,7 @@ function App() {
                     </div>
                     <button
                       onClick={() => setMode("basic")}
-                      className="bg-[#1447e6] text-white px-4 py-2 rounded text-sm hover:bg-[#0f2e7a]"
+                      className="bg-[#1447e6] text-white px-4 py-2 rounded text-sm hover:bg-[#0f2e7a] w-full md:w-auto"
                     >
                       Recalculate
                     </button>
@@ -380,56 +389,61 @@ function App() {
                 </div>
 
                 <div className="space-y-4">
-                  <div className="flex justify-between items-center">
+                  <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
                     <h3 className="font-bold text-[#1a1f36]">Departments</h3>
                     <div className="flex gap-2">
                       <button
                         type="button"
                         onClick={addDepartment}
-                        className="bg-[#047857] text-white px-3 py-2 rounded text-sm hover:bg-[#065f46]"
+                        className="bg-[#047857] text-white px-3 py-2 rounded text-sm hover:bg-[#065f46] w-full sm:w-auto"
                       >
-                        + Add
+                        + Add Department
                       </button>
                     </div>
                   </div>
 
                   {allocationData.departments.map((dept, index) => (
-                    <div key={index} className="flex gap-2 items-center">
+                    <div
+                      key={index}
+                      className="flex flex-col sm:flex-row gap-2"
+                    >
                       <input
                         type="text"
                         value={dept.name}
                         onChange={(e) =>
                           updateDepartment(index, "name", e.target.value)
                         }
-                        className="flex-1 p-3 border border-[#e2e8f0] rounded focus:ring-2 focus:ring-[#e8f0fe] focus:border-[#1447e6]"
+                        className="flex-1 p-3 border border-[#e2e8f0] rounded focus:ring-2 focus:ring-[#e8f0fe] focus:border-[#1447e6] mb-2 sm:mb-0"
                         placeholder="Department name"
                       />
-                      <input
-                        type="number"
-                        value={dept.hosts}
-                        onChange={(e) =>
-                          updateDepartment(index, "hosts", e.target.value)
-                        }
-                        className="w-24 p-3 border border-[#e2e8f0] rounded focus:ring-2 focus:ring-[#e8f0fe] focus:border-[#1447e6]"
-                        placeholder="Hosts"
-                        min="1"
-                      />
-                      {allocationData.departments.length > 1 && (
-                        <button
-                          type="button"
-                          onClick={() =>
-                            setAllocationData((prev) => ({
-                              ...prev,
-                              departments: prev.departments.filter(
-                                (_, i) => i !== index
-                              ),
-                            }))
+                      <div className="flex gap-2">
+                        <input
+                          type="number"
+                          value={dept.hosts}
+                          onChange={(e) =>
+                            updateDepartment(index, "hosts", e.target.value)
                           }
-                          className="bg-[#dc2626] text-white px-3 py-3 rounded hover:bg-[#b91c1c]"
-                        >
-                          ×
-                        </button>
-                      )}
+                          className="w-full sm:w-24 p-3 border border-[#e2e8f0] rounded focus:ring-2 focus:ring-[#e8f0fe] focus:border-[#1447e6]"
+                          placeholder="Hosts"
+                          min="1"
+                        />
+                        {allocationData.departments.length > 1 && (
+                          <button
+                            type="button"
+                            onClick={() =>
+                              setAllocationData((prev) => ({
+                                ...prev,
+                                departments: prev.departments.filter(
+                                  (_, i) => i !== index
+                                ),
+                              }))
+                            }
+                            className="bg-[#dc2626] text-white px-3 py-3 rounded hover:bg-[#b91c1c] flex-shrink-0"
+                          >
+                            ×
+                          </button>
+                        )}
+                      </div>
                     </div>
                   ))}
 
